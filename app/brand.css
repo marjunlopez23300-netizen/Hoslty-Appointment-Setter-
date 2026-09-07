@@ -1,0 +1,50 @@
+:root {
+  --navy: #0b2c52;
+  --ink: #102b49;
+  --cream: #f3f5f8;
+  --green: #536f8b;
+  --steel: #536f8b;
+  --sky: #8fa8c4;
+  --line: #d9e0e8;
+  --muted: #64768a;
+}
+
+body { background: #ffffff; color: var(--ink); }
+.nav { border-color: var(--line); }
+.nav > a, footer > a { text-decoration: none; }
+.brand { gap: 12px; color: var(--navy); }
+.wordmark { display: flex; flex-direction: column; font-size: 20px; line-height: 1; letter-spacing: .28em; font-weight: 500; }
+.wordmark small { margin-top: 5px; font-size: 5.8px; letter-spacing: .015em; font-weight: 700; white-space: nowrap; }
+.logoMark { position: relative; display: block; width: 30px; height: 38px; border-radius: 0; background: transparent; overflow: hidden; }
+.logoMark i { position: absolute; top: 1px; bottom: 1px; width: 8px; background: linear-gradient(100deg,var(--steel) 0 55%,var(--navy) 56%); clip-path: polygon(0 0,72% 0,100% 9%,100% 88%,58% 100%,0 100%); }
+.logoMark i:first-child { left: 1px; }
+.logoMark i:nth-child(2) { right: 1px; transform: scaleX(-1); background: linear-gradient(100deg,var(--sky) 0 55%,var(--navy) 56%); }
+.logoMark b { position: absolute; left: 7px; top: 15px; width: 17px; height: 10px; background: var(--navy); clip-path: polygon(0 0,100% 50%,0 100%); }
+.eyebrow,.sectionno,.formKicker { color: var(--steel); }
+.eyebrow i { background: var(--steel); }
+.hero h1 em { color: var(--steel); }
+.hero > p,.sectionhead > p,.consult p,.modal p { color: var(--muted); }
+.story { background: var(--navy); }
+.story .sectionno { color: var(--sky); }
+.story p,.journey { color: #d9e3ed; }
+.journey i { color: var(--sky); }
+.service:hover { background: #f1f5fa; }
+.serviceNo,.service small { color: var(--steel); }
+.consult { background: #eef3f8; }
+.lightCta { border-color: #cbd7e3; box-shadow: 0 6px 22px #0b2c5212; }
+.modalWrap { background: #071c35e8; }
+input:focus,select:focus { border-color: var(--steel); box-shadow: 0 0 0 3px #536f8b1c; }
+.notice { background: #f0f4f8; color: var(--steel); }
+.check { background: #e7eef6; color: var(--navy); }
+.admin { background: #f2f5f8; }
+.admin aside nav button.active { background: #e6edf5; color: var(--navy); }
+.adminUser i,.person i { background: #dce6f0; color: var(--navy); }
+.tabs button.active { color: var(--navy); border-color: var(--navy); }
+.metrics .good { color: var(--steel); }
+.pill.highpriority { color: var(--navy); background: #e4edf7; }
+.status.approved { color: var(--steel); }
+
+@media(max-width:900px){
+  .admin > aside .brand { padding-left: 2px; }
+  .admin > aside .wordmark { display: none; }
+}
