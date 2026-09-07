@@ -43,6 +43,10 @@ input:focus,select:focus { border-color: var(--steel); box-shadow: 0 0 0 3px #53
 .metrics .good { color: var(--steel); }
 .pill.highpriority { color: var(--navy); background: #e4edf7; }
 .status.approved { color: var(--steel); }
+.consent { display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; font-weight: 500; }
+.consent input { width: 16px; height: 16px; margin: 1px 0 0; flex: 0 0 auto; accent-color: var(--navy); }
+.formError { margin: 18px 0 0 !important; padding: 12px 14px; border-radius: 8px; background: #fff0f0; color: #a22626 !important; font-size: 12px; }
+.continue:disabled,.back:disabled { cursor: wait; opacity: .65; }
 
 @media(max-width:900px){
   .admin > aside .brand { padding-left: 2px; }
