@@ -47,6 +47,21 @@ input:focus,select:focus { border-color: var(--steel); box-shadow: 0 0 0 3px #53
 .consent input { width: 16px; height: 16px; margin: 1px 0 0; flex: 0 0 auto; accent-color: var(--navy); }
 .formError { margin: 18px 0 0 !important; padding: 12px 14px; border-radius: 8px; background: #fff0f0; color: #a22626 !important; font-size: 12px; }
 .continue:disabled,.back:disabled { cursor: wait; opacity: .65; }
+.adminBrand { color: var(--navy); font-size: 20px; letter-spacing: .22em; padding: 8px; margin-bottom: 34px; }
+.adminBrand small { display: block; font-size: 7px; letter-spacing: .12em; margin-top: 7px; }
+.adminLogin { min-height: 100vh; background: #eef3f8; padding: 30px; display: grid; place-items: center; }
+.adminLogin > .exitBtn { position: absolute; left: 30px; top: 30px; }
+.loginCard { width: min(460px,100%); background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 44px; box-shadow: 0 24px 70px #0b2c5218; }
+.loginCard h1 { font: 400 38px/1.1 Georgia; color: var(--navy); margin: 14px 0; }
+.loginCard p { color: var(--muted); line-height: 1.6; }
+.loginMark { width: 50px; height: 50px; display: grid; place-items: center; background: var(--navy); color: #fff; border-radius: 12px; font: 30px Georgia; margin-bottom: 28px; }
+.formNotice { padding: 12px 14px; border-radius: 8px; background: #e7eef6; color: var(--navy); font-size: 12px; }
+.emptyState { padding: 48px; text-align: center; color: var(--muted); }
+.rowActions { display: flex !important; flex-direction: column; gap: 4px; align-items: flex-start; }
+.rowActions button,.rowActions a { border: 0; background: none; padding: 1px; color: var(--navy); font-size: 10px; text-decoration: none; cursor: pointer; }
+.rowActions .danger { color: #a22626; }
+textarea { width: 100%; min-height: 100px; border: 1px solid #d5dcd7; border-radius: 10px; background: #fbfcfa; padding: 14px 13px; margin-top: 8px; font: 14px Arial; resize: vertical; }
+.loginCard .continue { width: 100%; margin-top: 12px; }
 
 @media(max-width:900px){
   .admin > aside .brand { padding-left: 2px; }

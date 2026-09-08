@@ -1,6 +1,7 @@
 'use client';
 
 import { FormEvent, useMemo, useState } from 'react';
+import AdminDashboard from '../components/Admin';
 
 type Service = { id:string; no:string; title:string; short:string; desc:string; tags:string; question:string; options:string[] };
 type FormData = { fullName:string; email:string; mobile:string; primaryAnswer:string; location:string; timeframe:string; marketingConsent:boolean };
@@ -32,9 +33,10 @@ export default function Home(){
  const activeDate=selectedDate||dates[0].iso;
  const activeDateLabel=dates.find(d=>d.iso===activeDate)?.label||activeDate;
  function openForm(s?:Service){setSelected(s||services[0]);setStep(1);setSent(false);setForm(emptyForm);setFormError('')}
- function update<K extends keyof FormData>(key:K,value:FormData[K]){setForm(current=>({...current,[key]:value}))}
+	 function update<K extends keyof FormData>(key:K,value:FormData[K]){setForm(current=>({...current,[key]:value}))}
+	 // eslint-disable-next-line prefer-const
 	 async function submit(e:FormEvent){e.preventDefault();setFormError('');if(step<3){setStep(step+1);return}setSaving(true);try{const [time,period]=slot.split(' ');let [hour,minute]=time.split(':').map(Number);if(period==='PM'&&hour!==12)hour+=12;if(period==='AM'&&hour===12)hour=0;const requestedAt=`${activeDate}T${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')}:00+08:00`;const response=await fetch('/api/consultations',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({...form,serviceId:service.id,requestedAt})});const result=await response.json() as {error?:string};if(!response.ok)throw new Error(result.error||'Unable to send request.');setSent(true)}catch(error){setFormError(error instanceof Error?error.message:'Unable to send request.')}finally{setSaving(false)}}
- if(view==='admin') return <Admin onExit={()=>setView('site')}/>;
+	 if(view==='admin') return <AdminDashboard onExit={()=>setView('site')}/>;
  return <main>
   <nav className="nav shell"><a href="#top"><Brand/></a><div className="navlinks"><a href="#story">Our story</a><a href="#services">Ways we help</a><button className="linkbutton" onClick={()=>setView('admin')}>Admin</button><button onClick={()=>openForm()}>Request a free call</button></div></nav>
   <section className="hero shell" id="top"><div className="eyebrow"><i/>Real experience, shared practically</div><h1>We started by renting.<br/>Then we built. <em>Then we scaled.</em></h1><p>Practical assistance for property owners, Airbnb builders, operators, investors, and growing businesses—from a team that has done the work firsthand.</p><div className="actions"><button className="primary" onClick={()=>document.querySelector('#services')?.scrollIntoView()}>Find the right assistance <span>↗</span></button><a className="secondary" href="#story">See our journey <span>↓</span></a></div><div className="trust"><div><strong>20+</strong><span>team members</span></div><div><strong>5</strong><span>ways we can assist</span></div><div><strong>30 min</strong><span>free consultation</span></div></div></section>
