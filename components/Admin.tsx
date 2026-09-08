@@ -16,7 +16,7 @@ const statusLabels: Record<string,string> = {
 };
 
 type Lead = { id:string; full_name:string; email:string; mobile:string; service_type:string; qualification_status:string; preferred_location:string|null; budget_range:string|null; start_timeframe:string|null };
-type Consultation = { id:string; requested_datetime:string; approved_datetime:string|null; status:string; meeting_url:string|null; admin_notes:string|null; created_at:string; leads:Lead };
+type Consultation = { id:string; requested_datetime:string; approved_datetime:string|null; status:string; meeting_url:string|null; calendar_event_id:string|null; admin_notes:string|null; created_at:string; leads:Lead };
 type Draft = { status:string; requestedAt:string; adminNotes:string };
 
 function localInput(iso:string){const d=new Date(iso);const p=(n:number)=>String(n).padStart(2,'0');return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`}

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { requireAdmin } from '../../../../../lib/admin-auth';
 import { createSupabaseAdmin } from '../../../../../lib/supabase/admin';
+import { bookCalendlyConsultation } from '../../../../../lib/calendly';
 
 export const runtime = 'nodejs';
 
@@ -24,6 +25,28 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
   changes.approved_datetime = status === 'APPROVED' ? (requested?.toISOString() || String(body.currentRequestedAt)) : null;
 
   const supabase = createSupabaseAdmin();
+  const { data: current } = await supabase.from('consultations')
+    .select('calendar_event_id,requested_datetime,leads(full_name,email)')
+    .eq('id', id).single();
+  if (!current) return NextResponse.json({ error: 'Consultation not found.' }, { status: 404 });
+
+  if (status === 'APPROVED' && !current.calendar_event_id) {
+    const lead = current.leads as unknown as { full_name: string; email: string };
+    try {
+      const booking = await bookCalendlyConsultation({
+        name: lead.full_name,
+        email: lead.email,
+        startTime: requested?.toISOString() || current.requested_datetime,
+      });
+      changes.calendar_event_id = booking.eventUri;
+      changes.meeting_url = booking.meetingUrl;
+      changes.meeting_provider = 'OTHER';
+    } catch (bookingError) {
+      const message = bookingError instanceof Error ? bookingError.message : 'Calendly booking failed.';
+      return NextResponse.json({ error: `Calendly: ${message}` }, { status: 502 });
+    }
+  }
+
   const { data: consultation, error } = await supabase.from('consultations').update(changes).eq('id', id).select('lead_id').single();
   if (error || !consultation) return NextResponse.json({ error: error?.code === '23505' ? 'That time is already reserved.' : 'Unable to update consultation.' }, { status: error?.code === '23505' ? 409 : 500 });
 
