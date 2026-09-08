@@ -28,7 +28,6 @@ export async function bookCalendlyConsultation(input: { name: string; email: str
       event_type: eventType,
       start_time: new Date(input.startTime).toISOString(),
       invitee: { name: input.name, email: input.email, timezone: 'Asia/Manila' },
-      tracking: { utm_source: 'hostly_admin', utm_campaign: 'approved_consultation' },
     }),
   });
   const eventUri = String(resource.event || '');
