@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createSupabaseAdmin } from '../../../lib/supabase/admin';
+import { sendHostlyEmail } from '../../../lib/email';
 
 export const runtime = 'nodejs';
 
@@ -108,6 +109,17 @@ export async function POST(request: Request) {
       { error: conflict ? 'That time was just requested. Please choose another slot.' : 'We could not complete your request. Please try again.' },
       { status: conflict ? 409 : 500 },
     );
+  }
+
+  try {
+    await sendHostlyEmail({
+      to: email,
+      subject: 'Hostly consultation request received',
+      heading: 'Your request is pending review',
+      message: `Hi ${fullName}, we received your consultation request for ${requestedAt.toLocaleString('en-PH', { timeZone: 'Asia/Manila', dateStyle: 'long', timeStyle: 'short' })}. Our team will review it before sending your private Calendly booking link.`,
+    });
+  } catch (emailError) {
+    console.error('Pending email failed', emailError instanceof Error ? emailError.message : emailError);
   }
 
   return NextResponse.json({

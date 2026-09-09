@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { requireAdmin } from '../../../../../lib/admin-auth';
 import { createSupabaseAdmin } from '../../../../../lib/supabase/admin';
-import { bookCalendlyConsultation } from '../../../../../lib/calendly';
+import { createCalendlySchedulingLink } from '../../../../../lib/calendly';
+import { sendHostlyEmail } from '../../../../../lib/email';
 
 export const runtime = 'nodejs';
 
@@ -30,20 +31,28 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
     .eq('id', id).single();
   if (!current) return NextResponse.json({ error: 'Consultation not found.' }, { status: 404 });
 
-  if (status === 'APPROVED' && !current.calendar_event_id) {
+  if (status === 'APPROVED' || status === 'RESCHEDULED') {
     const lead = current.leads as unknown as { full_name: string; email: string };
     try {
-      const booking = await bookCalendlyConsultation({
-        name: lead.full_name,
-        email: lead.email,
-        startTime: requested?.toISOString() || current.requested_datetime,
+      const singleUseUrl = await createCalendlySchedulingLink();
+      const bookingUrl = new URL(singleUseUrl);
+      bookingUrl.searchParams.set('name', lead.full_name);
+      bookingUrl.searchParams.set('email', lead.email);
+      const preferredTime = new Date(requested?.toISOString() || current.requested_datetime).toLocaleString('en-PH', { timeZone:'Asia/Manila', dateStyle:'long', timeStyle:'short' });
+      await sendHostlyEmail({
+        to: lead.email,
+        subject: status === 'RESCHEDULED' ? 'Choose a new time for your Hostly consultation' : 'Your Hostly consultation is approved',
+        heading: status === 'RESCHEDULED' ? 'Let’s find another time' : 'Your consultation is approved',
+        message: `Hi ${lead.full_name}, your preferred schedule is ${preferredTime}. Please use the private link below to finalize an available time. Calendly will then send your Google Meet and calendar invitation automatically.`,
+        actionLabel: 'Confirm schedule in Calendly',
+        actionUrl: bookingUrl.toString(),
       });
-      changes.calendar_event_id = booking.eventUri;
-      changes.meeting_url = booking.meetingUrl;
+      changes.calendar_event_id = null;
+      changes.meeting_url = bookingUrl.toString();
       changes.meeting_provider = 'OTHER';
     } catch (bookingError) {
-      const message = bookingError instanceof Error ? bookingError.message : 'Calendly booking failed.';
-      return NextResponse.json({ error: `Calendly: ${message}` }, { status: 502 });
+      const message = bookingError instanceof Error ? bookingError.message : 'Scheduling email failed.';
+      return NextResponse.json({ error: message }, { status: 502 });
     }
   }
 

@@ -6,6 +6,18 @@ type CalendlyBooking = {
   meetingUrl: string | null;
 };
 
+export async function createCalendlySchedulingLink() {
+  const eventType = process.env.CALENDLY_EVENT_TYPE_URI;
+  if (!eventType) throw new Error('Calendly event type is not configured.');
+  const resource = await calendlyRequest('/scheduling_links', {
+    method: 'POST',
+    body: JSON.stringify({ max_event_count: 1, owner: eventType, owner_type: 'EventType' }),
+  });
+  const bookingUrl = String(resource.booking_url || '');
+  if (!bookingUrl) throw new Error('Calendly did not return a scheduling link.');
+  return bookingUrl;
+}
+
 async function calendlyRequest(path: string, init?: RequestInit) {
   const token = process.env.CALENDLY_ACCESS_TOKEN;
   if (!token) throw new Error('Calendly is not configured.');
