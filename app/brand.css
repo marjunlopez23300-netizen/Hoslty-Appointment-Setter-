@@ -67,8 +67,27 @@ input:focus,select:focus { border-color: var(--steel); box-shadow: 0 0 0 3px #53
 .rowActions .danger { color: #a22626; }
 textarea { width: 100%; min-height: 100px; border: 1px solid #d5dcd7; border-radius: 10px; background: #fbfcfa; padding: 14px 13px; margin-top: 8px; font: 14px Arial; resize: vertical; }
 .loginCard .continue { width: 100%; margin-top: 12px; }
+.crmToolbar { display: grid; grid-template-columns: minmax(240px,1fr) 230px; gap: 12px; padding: 16px; border-bottom: 1px solid var(--line); }
+.crmToolbar input,.crmToolbar select { margin: 0; background: #fff; }
+.crmGrid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 14px; padding: 18px; background: #f7f9fb; }
+.crmCard { min-width: 0; border: 1px solid var(--line); border-radius: 13px; background: #fff; padding: 18px; box-shadow: 0 5px 18px #0b2c5208; }
+.crmIdentity { display: flex; align-items: center; gap: 12px; }
+.crmIdentity > i { display: grid; place-items: center; flex: 0 0 42px; width: 42px; height: 42px; border-radius: 50%; background: #dce6f0; color: var(--navy); font-size: 11px; font-style: normal; font-weight: 800; }
+.crmIdentity h3 { margin: 0 0 5px; color: var(--navy); font: 400 20px Georgia,serif; }
+.crmIdentity a { display: block; max-width: 210px; overflow: hidden; color: var(--muted); font-size: 10px; line-height: 1.5; text-decoration: none; text-overflow: ellipsis; white-space: nowrap; }
+.crmCard dl { display: grid; gap: 9px; margin: 18px 0; padding: 14px 0; border-top: 1px solid #edf1f5; border-bottom: 1px solid #edf1f5; }
+.crmCard dl div { display: flex; justify-content: space-between; gap: 14px; }
+.crmCard dt { color: #8795a4; font-size: 9px; text-transform: uppercase; letter-spacing: .08em; }
+.crmCard dd { margin: 0; color: var(--ink); font-size: 10px; text-align: right; }
+.crmCard label { margin: 0; color: var(--steel); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
+.crmCard select { margin-top: 7px; color: var(--navy); font-weight: 700; text-transform: none; }
 
 @media(max-width:900px){
   .admin > aside .brand { padding-left: 2px; }
   .admin > aside .wordmark { display: none; }
+  .crmGrid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+
+@media(max-width:760px){
+  .crmToolbar,.crmGrid { grid-template-columns: 1fr; }
 }

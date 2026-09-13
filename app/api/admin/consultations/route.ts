@@ -11,7 +11,7 @@ export async function GET(request: Request) {
 
   const { data, error } = await createSupabaseAdmin()
     .from('consultations')
-    .select('id,requested_datetime,approved_datetime,status,meeting_url,calendar_event_id,admin_notes,created_at,leads(id,full_name,email,mobile,service_type,qualification_status,preferred_location,budget_range,start_timeframe)')
+    .select('id,requested_datetime,approved_datetime,status,meeting_url,calendar_event_id,admin_notes,created_at,leads(id,full_name,email,mobile,service_type,qualification_status,crm_status,preferred_location,budget_range,start_timeframe,last_activity_at)')
     .order('requested_datetime', { ascending: true });
 
   if (error) return NextResponse.json({ error: 'Unable to load consultations.' }, { status: 500 });
