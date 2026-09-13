@@ -9,17 +9,22 @@
   --muted: #64768a;
 }
 
-body { background: #ffffff; color: var(--ink); }
-.nav { border-color: var(--line); }
-.nav > a, footer > a { text-decoration: none; }
-.brand { gap: 12px; color: var(--navy); }
-.wordmark { display: flex; flex-direction: column; font-size: 20px; line-height: 1; letter-spacing: .28em; font-weight: 500; }
-.wordmark small { margin-top: 5px; font-size: 5.8px; letter-spacing: .015em; font-weight: 700; white-space: nowrap; }
-.logoMark { position: relative; display: block; width: 30px; height: 38px; border-radius: 0; background: transparent; overflow: hidden; }
-.logoMark i { position: absolute; top: 1px; bottom: 1px; width: 8px; background: linear-gradient(100deg,var(--steel) 0 55%,var(--navy) 56%); clip-path: polygon(0 0,72% 0,100% 9%,100% 88%,58% 100%,0 100%); }
-.logoMark i:first-child { left: 1px; }
-.logoMark i:nth-child(2) { right: 1px; transform: scaleX(-1); background: linear-gradient(100deg,var(--sky) 0 55%,var(--navy) 56%); }
-.logoMark b { position: absolute; left: 7px; top: 15px; width: 17px; height: 10px; background: var(--navy); clip-path: polygon(0 0,100% 50%,0 100%); }
+body { background: #f3f5f8; color: var(--ink); }
+main { min-height: 100vh; background: linear-gradient(180deg,#eef3f8 0,#f8fafc 46rem,#fff 68rem); }
+.nav { border-color: #cad6e2; }
+.nav > a, footer > a { display: inline-flex; border-radius: 10px; padding: 8px 10px; margin-left: -10px; text-decoration: none; transition: background-color .2s ease,transform .2s ease; }
+.nav > a:hover, footer > a:hover { background: #dfe8f1; transform: translateY(-1px); }
+.nav > a:focus-visible, footer > a:focus-visible { outline: 3px solid #8fa8c466; outline-offset: 3px; }
+.brand { gap: 13px; color: var(--navy); }
+.brand .wordmark { display: flex; flex-direction: column; place-items: initial; width: auto; height: auto; border-radius: 0; background: transparent; color: var(--navy); font-family: Arial,Helvetica,sans-serif; font-size: 20px; font-style: normal; line-height: 1; letter-spacing: .28em; font-weight: 500; }
+.brand .wordmark small { margin-top: 5px; color: var(--navy); font-size: 5.8px; letter-spacing: .015em; font-weight: 700; white-space: nowrap; }
+.brand .logoMark { position: relative; display: block; place-items: initial; flex: 0 0 32px; width: 32px; height: 40px; border-radius: 0; background: transparent; color: inherit; font-family: inherit; font-style: normal; overflow: hidden; }
+.brand .logoMark i { position: absolute; top: 1px; bottom: 1px; width: 9px; background: linear-gradient(100deg,var(--steel) 0 55%,var(--navy) 56%); clip-path: polygon(0 0,72% 0,100% 9%,100% 88%,58% 100%,0 100%); }
+.brand .logoMark i:first-child { left: 1px; }
+.brand .logoMark i:nth-child(2) { right: 1px; transform: scaleX(-1); background: linear-gradient(100deg,var(--sky) 0 55%,var(--navy) 56%); }
+.brand .logoMark b { position: absolute; left: 8px; top: 16px; width: 18px; height: 10px; background: var(--navy); clip-path: polygon(0 0,100% 50%,0 100%); }
+.hero { position: relative; isolation: isolate; }
+.hero::after { content: ''; position: absolute; z-index: -1; right: 2%; top: 8%; width: min(30vw,340px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 34% 34%,#fff 0 10%,#8fa8c42b 11% 34%,#536f8b18 35% 54%,transparent 55%); filter: blur(.2px); pointer-events: none; }
 .eyebrow,.sectionno,.formKicker { color: var(--steel); }
 .eyebrow i { background: var(--steel); }
 .hero h1 em { color: var(--steel); }
